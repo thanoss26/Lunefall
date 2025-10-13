@@ -7,7 +7,7 @@ namespace HFSM
         protected TContext _context { get; private set; }
         protected StateMachine<TContext> _stateMachine { get; private set; }
 
-        public StateBase(TContext context, _stateMachine<TContext> stateMachine)
+        public StateBase(TContext context, StateMachine<TContext> stateMachine)
         {
             _context = context;
             _stateMachine = stateMachine;
