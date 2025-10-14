@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-public interface  IState
+public interface IState
 {
-    public void OnEnter();
-    public void OnExit();
-    public void OnUpdate();
-    public void OnFixedUpdate();
+    public void Enter();
+    public void Update();
+    public void FixedUpdate();
+    public void Exit();
+    
 }
