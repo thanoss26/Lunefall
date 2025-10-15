@@ -6,20 +6,16 @@ namespace StateMachine
     public abstract class State : IState
     {
         protected StateMachine fsm;
-        protected Player player;
-        protected Animator animator;
-        protected Rigidbody2D rb;
+        protected PlayerContext ctx;
         
         protected State parentState;
         protected State activeSubState;
         protected State defaultSubState;
 
-        public State(StateMachine fsm, Player player, Animator animator, Rigidbody2D rb, State parentState = null)
+        public State(StateMachine fsm, PlayerContext context, State parentState = null)
         {
             this.fsm = fsm;
-            this.player = player;
-            this.animator = animator;
-            this.rb = rb;
+            this.ctx = context;
             this.parentState = parentState;
         }
         

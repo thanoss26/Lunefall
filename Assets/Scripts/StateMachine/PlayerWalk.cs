@@ -4,28 +4,46 @@ namespace StateMachine
 {
     public class PlayerWalk : State
     {
-        public PlayerWalk(StateMachine fsm, Player player, Animator animator, Rigidbody2D rb, State parentState = null) : base(fsm, player, animator, rb, parentState)
+        public PlayerWalk(StateMachine fsm, PlayerContext context, State parentState = null) : base(fsm, context, parentState)
         {
+            
         }
 
         public override void Enter()
         {
-            throw new System.NotImplementedException();
+            Debug.Log("Player walk entered");
+            ctx.anim.SetBool("Move", true);
         }
 
         public override void Update()
         {
-            throw new System.NotImplementedException();
+            float horizontalInput = Input.GetAxis("Horizontal");
+            
+
+            if (Mathf.Abs(horizontalInput) < 0.1f)
+            {
+                if (parentState is GroundedState groundedParent)
+                {
+                    State idleState = groundedParent.GetSubState(PlayerStates.Idle);
+                    parentState.SetSubState(idleState);
+                }
+                return;
+            }
+        }
+
+        public override void FixedUpdate()
+        {
+            float horizontalInput = Input.GetAxis("Horizontal");
+            ctx.rb.linearVelocity = new Vector2(horizontalInput * ctx.playerSpeed, ctx.rb.linearVelocity.y);
         }
 
         public override void Exit()
         {
-            throw new System.NotImplementedException();
+            ctx.anim.SetBool("Move", false);
         }
 
         public override void CheckTransition()
         {
-            throw new System.NotImplementedException();
         }
     }
 }

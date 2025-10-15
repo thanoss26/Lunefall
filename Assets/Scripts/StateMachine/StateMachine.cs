@@ -8,10 +8,6 @@ namespace StateMachine
         
         protected Dictionary<PlayerStates, State> states = new();
         protected State currentState;
-        
-        protected State parentState;
-        protected State activeSubState;
-        protected State defaultSubState;
 
         protected abstract void InitializeStates();
 

@@ -1,19 +1,28 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace StateMachine
 {
     public class GroundedState : State
     {
-        public GroundedState(StateMachine fsm, Player player, Animator animator, Rigidbody2D rb, State parentState = null) : base(fsm, player, animator, rb, parentState)
+        private Dictionary<PlayerStates, State> subStates = new();
+        public GroundedState(StateMachine fsm, PlayerContext context, State parentState = null) : base(fsm, context, parentState)
         {
-         
-            var idle = new PlayerIdle(fsm, player, animator, rb, this);
-            var walk = new PlayerWalk(fsm, player, animator, rb, this);
-            //var run = new RunState(fsm, player, animator, rb, this);
+            var idle = new PlayerIdle(fsm, context, this);
+            var walk = new PlayerWalk(fsm, context, this);
+            
+            subStates.Add(PlayerStates.Idle, idle);
+            subStates.Add(PlayerStates.Walk, walk);
+            
+            SetDefaultSubState(idle); 
         }
 
         public override void Enter()
         {
+            Debug.Log("Entering Grounded Parent State");
+            ctx.rb.linearVelocity = Vector3.zero;
+            
+            activeSubState = defaultSubState;
             defaultSubState?.Enter();
         }
 
@@ -30,6 +39,13 @@ namespace StateMachine
         public override void CheckTransition()
         {
             activeSubState?.CheckTransition();
+        }
+        
+        public State GetSubState(PlayerStates id)
+        {
+            if(subStates.TryGetValue(id, out State state))
+                return state;
+            return null;
         }
     }
 }

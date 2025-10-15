@@ -564,8 +564,8 @@ GameObject:
   - component: {fileID: 1270101053}
   - component: {fileID: 1270101052}
   - component: {fileID: 1270101057}
-  - component: {fileID: 1270101058}
   - component: {fileID: 1270101059}
+  - component: {fileID: 1270101058}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -751,9 +751,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1270101051}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93572d71bbd74ecabfc9e53a86253b53, type: 3}
+  m_Script: {fileID: 11500000, guid: 40d9d6c92b114ad781d0c98e497369db, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StateMachine.Player
+  m_EditorClassIdentifier: Assembly-CSharp::StateMachine.StatesInit
+  player: {fileID: 0}
+  animator: {fileID: 0}
+  rb: {fileID: 0}
 --- !u!114 &1270101059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -763,9 +766,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1270101051}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40d9d6c92b114ad781d0c98e497369db, type: 3}
+  m_Script: {fileID: 11500000, guid: 93572d71bbd74ecabfc9e53a86253b53, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StateMachine.StatesInit
+  m_EditorClassIdentifier: Assembly-CSharp::StateMachine.Player
 --- !u!1 &1539061502
 GameObject:
   m_ObjectHideFlags: 0

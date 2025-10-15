@@ -1,14 +1,17 @@
-﻿using UnityEngine;
+﻿using StateMachine;
+using UnityEngine;
 
-namespace StateMachine
+public class Player : MonoBehaviour
 {
-    public class Player : MonoBehaviour
-    {
-        private StatesInit states;
+    private StatesInit states;
 
-        private void Awake()
-        {
-            states = GetComponent<StatesInit>();
-        }
+    private void Awake()
+    {
+        states = GetComponent<StatesInit>();
+    }
+
+    private void Upodate()
+    {
+        
     }
 }
