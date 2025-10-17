@@ -2,47 +2,43 @@
 
 namespace StateMachine
 {
-    public class PlayerWalk : State
+    public class PlayerWalk : State<PlayerContext, PlayerStateId>
     {
-        public PlayerWalk(StateMachine fsm, PlayerContext context, State parentState = null) : base(fsm, context, parentState)
+        public PlayerWalk(HFSM<PlayerContext, PlayerStateId> fsm, PlayerContext ctx, State<PlayerContext, PlayerStateId> parentState = null) : base(fsm, ctx, parentState)
         {
             
         }
 
         public override void Enter()
         {
-            Debug.Log("Player walk entered");
-            ctx.anim.SetBool("Move", true);
         }
 
         public override void Update()
         {
-            float horizontalInput = Input.GetAxis("Horizontal");
+            ctx.Rigidbody.linearVelocity = new Vector2(ctx.moveX * ctx.Data.moveSpeed, ctx.Rigidbody.linearVelocity.y);
+            ctx.Animator.SetFloat("speed", Mathf.Abs(ctx.moveX));
             
-
-            if (Mathf.Abs(horizontalInput) < 0.1f)
+            FlipPlayer();
+            
+            if (Mathf.Abs(ctx.moveX) < 0.1f)
             {
-                if (parentState is GroundedState groundedParent)
-                {
-                    State idleState = groundedParent.GetSubState(PlayerStates.Idle);
-                    parentState.SetSubState(idleState);
-                }
-                return;
+                TransitionTo(PlayerStateId.Idle);
             }
         }
 
-        public override void FixedUpdate()
+        private void FlipPlayer()
         {
-            float horizontalInput = Input.GetAxis("Horizontal");
-            ctx.rb.linearVelocity = new Vector2(horizontalInput * ctx.playerSpeed, ctx.rb.linearVelocity.y);
+            if(ctx.moveX > 0.1f)
+            {
+                ctx.SpriteRenderer.flipX = false;
+            }
+            else if (ctx.moveX < -0.1f)
+            {
+                ctx.SpriteRenderer.flipX = true;
+            }
         }
 
         public override void Exit()
-        {
-            ctx.anim.SetBool("Move", false);
-        }
-
-        public override void CheckTransition()
         {
         }
     }

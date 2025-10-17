@@ -2,54 +2,47 @@
 
 namespace StateMachine
 {
-   
-    public abstract class State : IState
+    public abstract class State<TContext, TStateId>
     {
-        protected StateMachine fsm;
-        protected PlayerContext ctx;
-        
-        protected State parentState;
-        protected State activeSubState;
-        protected State defaultSubState;
+        protected HFSM<TContext, TStateId> fsm;
+        protected TContext ctx;
 
-        public State(StateMachine fsm, PlayerContext context, State parentState = null)
+        protected State<TContext, TStateId> parentState;
+        protected State<TContext, TStateId> activeSubState;
+        protected State<TContext, TStateId> defaultSubState;
+
+        public State(HFSM<TContext, TStateId> fsm, TContext ctx, State<TContext, TStateId> parentState = null)
         {
             this.fsm = fsm;
-            this.ctx = context;
+            this.ctx = ctx;
             this.parentState = parentState;
         }
-        
+
         public abstract void Enter();
         public abstract void Update();
         public abstract void Exit();
-        public abstract void CheckTransition();
-        
         public virtual void FixedUpdate()
         {
             activeSubState?.FixedUpdate();
         }
+        
+        public virtual void CheckTransitions() { }
 
-        
-        protected void SetDefaultSubState(State sub)
-        {
-            defaultSubState = sub;
-        }
-        
-        public void SetSubState(State sub)
+        protected void SetSubState(State<TContext, TStateId> sub)
         {
             activeSubState?.Exit();
             activeSubState = sub;
             activeSubState?.Enter();
         }
-        
-        protected void TransitionTo(PlayerStates id)
+
+        public void SetDefaultSubState(State<TContext, TStateId> sub)
+        {
+            defaultSubState = sub;
+        }
+
+        protected void TransitionTo(TStateId id)
         {
             fsm.ChangeState(id);
-        }
-        
-        public State GetParent()
-        {
-            return parentState;
         }
     }
 }

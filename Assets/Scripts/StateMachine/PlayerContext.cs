@@ -1,28 +1,34 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace StateMachine
 {
-    [System.Serializable]
+    [CreateAssetMenu(fileName = "PlayerData", menuName = "Player/Data Profile")]
+    public class PlayerData : ScriptableObject
+    {
+        public float moveSpeed = 5.0f;
+        public float jumpForce = 12f;
+
+        [Header("Ground Check")]
+        public float groundCheckRadius = 0.2f;
+        public LayerMask groundLayer;
+    }
+    
     public class PlayerContext
     {
-        public Rigidbody2D rb {get; set;}
-        public Animator anim {get; set;}
+        public Animator Animator { get; }
+        public SpriteRenderer SpriteRenderer { get; }
         
-        public float MoveX {get; private set;}
-        public float playerSpeed { get; private set; } = 6.0f;
-        
-        public bool Jump {get; private set;}
-
-
-        public PlayerContext(Rigidbody2D rb, Animator animator)
+        public float moveX { get; set; }
+        public bool jumpInput { get; set; }
+        public Rigidbody2D Rigidbody { get; }
+        public PlayerData Data { get; }
+        public PlayerContext(Rigidbody2D rb, Animator animator, SpriteRenderer spriteRenderer, PlayerData data)
         {
-            this.rb = rb;
-            this.anim = animator;
-        }
-
-        public void SetAnimationBool(string paramName, bool value)
-        {
-            anim.SetBool(paramName, value);
+            this.Rigidbody = rb;
+            this.Animator = animator;
+            this.SpriteRenderer = spriteRenderer;
+            this.Data = data;
         }
     }
 }

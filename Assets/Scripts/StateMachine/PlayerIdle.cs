@@ -2,43 +2,31 @@
 
 namespace StateMachine
 {
-    public class PlayerIdle : State
+    public class PlayerIdle : State<PlayerContext, PlayerStateId>
     {
-        public PlayerIdle(StateMachine fsm, PlayerContext context, State parentState = null) : base(fsm, context, parentState)
+        public PlayerIdle(HFSM<PlayerContext, PlayerStateId> fsm, PlayerContext ctx, State<PlayerContext, PlayerStateId> parentState = null) : base(fsm, ctx, parentState)
         {
             
         }
 
         public override void Enter()
         {
-            Debug.Log("Player is idle");
-            
-            ctx.anim.SetBool("Idle", true);
+            ctx.Animator.SetBool("Idle", true);
+            Debug.Log("Entered Idle");
         }
 
         public override void Update()
         {
-            float horizontal = Input.GetAxis("Horizontal");
-            
-            if (Mathf.Abs(horizontal) > 0.1)
-            { 
-                // Transition to existing Walk state instance
-                if (parentState is GroundedState groundedParent)
-                {
-                    State walkState = groundedParent.GetSubState(PlayerStates.Walk);
-                    parentState.SetSubState(walkState);
-                }
+            if (Mathf.Abs(ctx.moveX) > 0.1f)
+            {
+                TransitionTo(PlayerStateId.Walk);
             }
         }
+
         public override void Exit()
         {
-            Debug.Log("Player is Exiting");
-            ctx.anim.SetBool("Idle", false);
-        }
-
-        public override void CheckTransition()
-        {
-           
+            ctx.Animator.SetBool("Idle", false);
+            Debug.Log("Exited Idle");
         }
     }
 }
