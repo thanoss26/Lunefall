@@ -1,4 +1,6 @@
-﻿namespace StateMachine
+﻿using UnityEngine;
+
+namespace StateMachine
 {
     public class PlayerJump : State<PlayerContext, PlayerStateId>
     {
@@ -9,16 +11,19 @@
 
         public override void Enter()
         {
-            throw new System.NotImplementedException();
+            ctx.Rigidbody.linearVelocity = Vector2.up * ctx.Data.jumpForce;
+            Debug.Log(ctx.Data.jumpForce);
         }
         public override void Update()
         {
-            throw new System.NotImplementedException();
+            if (ctx.Rigidbody.linearVelocity.y < 0)
+            {
+                TransitionTo(PlayerStateId.Airborne);
+            }
         }
 
         public override void Exit()
         {
-            throw new System.NotImplementedException();
         }
 
       

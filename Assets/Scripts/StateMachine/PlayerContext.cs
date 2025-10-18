@@ -21,6 +21,7 @@ namespace StateMachine
         
         public float moveX { get; set; }
         public bool jumpInput { get; set; }
+        public bool isGrounded { get; set; }
         public Rigidbody2D Rigidbody { get; }
         public PlayerData Data { get; }
         public PlayerContext(Rigidbody2D rb, Animator animator, SpriteRenderer spriteRenderer, PlayerData data)

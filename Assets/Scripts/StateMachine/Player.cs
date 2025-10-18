@@ -6,7 +6,6 @@ public class Player : PlayerBase
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Animator animator;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    
     [SerializeField] private PlayerData playerData;
 
     protected override PlayerContext CreateContext()
@@ -20,5 +19,7 @@ public class Player : PlayerBase
     {
         context.moveX = Input.GetAxisRaw("Horizontal");
         context.jumpInput = Input.GetKeyDown(KeyCode.Space);
+        Debug.Log(context.jumpInput);
     }
+    
 }

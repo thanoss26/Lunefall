@@ -14,6 +14,12 @@
         public override void Update()
         {
             activeSubState?.Update();
+
+            if (ctx.jumpInput)
+            {
+                TransitionTo(PlayerStateId.Jump);
+                return;
+            }
         }
 
         public override void Exit()
